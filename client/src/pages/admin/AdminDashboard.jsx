@@ -62,14 +62,34 @@ const AdminDashboard = () => {
     return matchSearch && matchStatus;
   });
 
-  return (
-    <div className="flex min-h-screen" style={{ background: '#050505' }}>
-      <Sidebar />
+  const [isOpen,setIsOpen] = useState(false);
 
-      <main className="ml-[240px] flex-1 px-8 py-8" style={{ maxWidth: 'calc(100vw - 240px)' }}>
+  return (
+    <div className="flex min-h-screen w-full overflow-x-hidden" style={{ background: '#050505' }}>
+      <Sidebar 
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
+
+      <main className="flex-1 min-w-0 ml-0 md:ml-[240px] px-4 md:px-8 py-8 overflow-hidden">
+        <button
+          className="md:hidden mb-5 p-2 rounded-lg bg-white/10"
+          onClick={() => setIsOpen(true)}
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            strokeWidth="2"
+          >
+            <path d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
 
         {/* Page header */}
-        <div className="flex items-center justify-between mb-7 page-section">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-7 page-section">
           <div>
             <h1 className="font-display text-[22px] font-semibold tracking-tight"
               style={{ color: '#F0F0F0', fontFamily: 'Poppins, sans-serif' }}>
@@ -89,7 +109,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Stats grid */}
-        <div className="grid grid-cols-4 gap-4 mb-6 page-section">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 page-section">
           {statCards.map(({ label, value, colorClass, valueColor }) => (
             <div key={label} className={`stat-card ${colorClass}`}>
               <span className="block text-[10.5px] font-semibold uppercase tracking-[0.08em] mb-3"
@@ -105,9 +125,9 @@ const AdminDashboard = () => {
         </div>
 
         {/* Tasks table */}
-        <div className="tasks-container page-section">
+        <div className="tasks-container page-section w-full min-w-0 overflow-hidden">
           {/* Table toolbar */}
-          <div className="table-header-bar">
+          <div className="table-header-bar flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-2">
               <h2 className="text-[15px] font-semibold"
                 style={{ color: '#E5E2E1', fontFamily: 'Poppins, sans-serif' }}>
@@ -152,6 +172,7 @@ const AdminDashboard = () => {
                 <option value="Submitted">Submitted</option>
                 <option value="Approved">Approved</option>
                 <option value="Rejected">Rejected</option>
+                <option value="Completed">Completed</option>
               </select>
             </div>
           </div>

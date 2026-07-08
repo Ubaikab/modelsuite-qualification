@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
+
 /* ── Clean SVG line-art icons (no emojis, no AI icons) ── */
 const IconDashboard = () => (
   <svg className="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -46,14 +47,22 @@ const navItems = [
   { label: 'Talents',     path: '/admin/talents',     Icon: IconTalents     },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen = false, setIsOpen = () => {} }) => {
   const { user, logout } = useAuth();
   const navigate  = useNavigate();
   const location  = useLocation();
 
   return (
-    <aside className="fixed inset-y-0 left-0 w-[240px] flex flex-col z-50"
-      style={{ background: '#0D0D0D' }}>
+    <>
+    <aside
+      className={`
+        fixed inset-y-0 left-0 w-[240px] flex flex-col z-50
+        transition-transform duration-300
+        md:translate-x-0
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}
+      `}
+      style={{ background: '#0D0D0D' }}
+    >
 
       {/* Brand */}
       <div className="flex items-center justify-center px-5 py-6">
@@ -72,9 +81,15 @@ const Sidebar = () => {
         {navItems.map(({ label, path, Icon }) => {
           const isActive = location.pathname === path;
           return (
-            <button key={path}
-              onClick={() => navigate(path)}
-              className={`nav-item ${isActive ? 'nav-active' : ''}`}>
+            <button
+              key={path}
+              onClick={() => {
+              console.log("Clicked:", path);
+              navigate(path);
+              if (setIsOpen) setIsOpen(false);
+            }}
+              className={`nav-item ${isActive ? 'nav-active' : ''}`}
+            >
               <Icon />
               <span>{label}</span>
             </button>
@@ -83,7 +98,7 @@ const Sidebar = () => {
       </nav>
 
       {/* Footer */}
-      <div className="px-3 pb-5">
+      <div className="px-3 pb-5 ">
         <div className="sidebar-divider mb-4" />
         <div className="flex items-center justify-between gap-2 px-1">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -104,10 +119,18 @@ const Sidebar = () => {
             title="Sign out"
             className="logout-btn">
             <IconLogout />
+            <span className="text-[13px] font-medium">Logout</span>
           </button>
         </div>
       </div>
     </aside>
+    {isOpen && (
+      <div
+        className="fixed inset-0 bg-black/60 z-40 md:hidden"
+        onClick={() => setIsOpen(false)}
+      />
+    )}
+    </>  
   );
 };
 

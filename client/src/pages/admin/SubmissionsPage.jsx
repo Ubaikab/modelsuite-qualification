@@ -12,6 +12,7 @@ const REVIEW_STATUS_CLASS = {
 const SubmissionsPage = () => {
   const [submissions, setSubmissions] = useState([]);
   const [reviewTarget, setReviewTarget] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const loadSubmissions = async () => {
     try {
@@ -32,19 +33,29 @@ const SubmissionsPage = () => {
   const tdCls = 'px-5 py-4 border-b border-border align-middle';
 
   return (
-    <div className="flex min-h-screen bg-bg-dark">
-      <Sidebar />
+    <div className="flex min-h-screen bg-bg-dark overflow-x-hidden">
+      <Sidebar 
+        isOpen={sidebarOpen}
+        setIsOpen={setSidebarOpen}
+      />
 
-      <main className="ml-60 flex-1 px-10 py-9">
+      <main className="flex-1 min-w-0 ml-0 md:ml-[240px] px-4 md:px-10 py-9 overflow-hidden">
 
-        {/* Header */}
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="md:hidden mb-5 text-white text-2xl"
+        >
+          ☰
+        </button>
+
+        {/* Header */}  
         <div className="mb-8">
           <h1 className="text-[26px] font-bold tracking-tight text-text-primary">Submissions</h1>
           <p className="mt-1 text-sm text-text-muted">Review talent submissions and approve or reject them.</p>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-4 mb-7">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-7">
           {[
             { label: 'Total',    value: submissions.length, color: 'text-text-primary' },
             { label: 'Pending',  value: pending,            color: 'text-info'         },
@@ -60,7 +71,7 @@ const SubmissionsPage = () => {
 
         {/* Table */}
         <div className="bg-bg-card border border-border rounded-xl overflow-hidden">
-          <div className="flex items-center justify-between px-6 py-5 border-b border-border">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-5 border-b border-border">
             <h2 className="text-[16px] font-semibold text-text-primary">All Submissions</h2>
             
             <span className="text-[12px] text-text-faint bg-bg-input border border-border px-2.5 py-1 rounded-full">
