@@ -84,7 +84,6 @@ const Sidebar = ({ isOpen = false, setIsOpen = () => {} }) => {
             <button
               key={path}
               onClick={() => {
-              console.log("Clicked:", path);
               navigate(path);
               if (setIsOpen) setIsOpen(false);
             }}
@@ -116,7 +115,7 @@ const Sidebar = ({ isOpen = false, setIsOpen = () => {} }) => {
 
           <button
             onClick={() => { logout(); navigate('/login'); }}
-            title="Sign out"
+            title="Logout"
             className="logout-btn">
             <IconLogout />
             <span className="text-[13px] font-medium">Logout</span>
