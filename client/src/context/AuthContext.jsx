@@ -1,9 +1,10 @@
-﻿import { createContext, useContext, useState } from 'react';
+﻿/* eslint-disable react-refresh/only-export-components */
+
+import { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  // — if token is expired, user stays "logged in" until a request fails
   const [user, setUser] = useState(() => {
     const stored = localStorage.getItem('user');
     return stored ? JSON.parse(stored) : null;
